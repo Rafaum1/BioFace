@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Acesso · BioFace{% endblock %}
+{% block content %}
+<section class="page-intro">
+  <p class="eyebrow">ÁREA DE ACESSO</p>
+  <h1>Acesse com seu rosto</h1>
+  <p>Posicione o rosto diante da câmera ou envie uma foto para confirmar sua identidade.</p>
+</section>
+
+<section class="mobile-enrollment">
+  <div>
+    <h2>Usar outro dispositivo</h2>
+    <p>Conecte-se à mesma rede Wi-Fi e leia o QR code para abrir o BioFace no celular.</p>
+    <p><a href="{{ mobile_url }}">{{ mobile_url }}</a></p>
+  </div>
+  <img src="{{ mobile_qr }}" alt="QR code para abrir o BioFace em outro dispositivo">
+</section>
+
+<section class="camera">
+  <video id="video" autoplay playsinline aria-label="Prévia da câmera"></video>
+  <canvas id="canvas" hidden></canvas>
+  <img id="preview" alt="Prévia da imagem selecionada">
+  <p id="camera-help" class="camera-help" hidden>A câmera ao vivo não está disponível nesta conexão. Você ainda pode tirar uma foto ou selecionar uma imagem.</p>
+  <div>
+    <button type="button" id="capture">Capturar rosto</button>
+    <button type="button" id="retake" hidden>Tentar novamente</button>
+  </div>
+  <label class="mobile-photo">Usar a câmera ou selecionar uma foto
+    <input type="file" id="photo-file" accept="image/jpeg,image/png" capture="user">
+  </label>
+</section>
+
+<form id="auth-form" method="post" action="{{ url_for('main.autenticar') }}">
+  <input type="hidden" name="image_data" id="image-data">
+  <button id="submit" disabled>Verificar identidade</button>
+</form>
+<script src="{{ url_for('static', filename='js/camera.js', v='4') }}"></script>
+{% endblock %}

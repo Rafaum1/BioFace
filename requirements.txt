@@ -1,0 +1,7 @@
+Flask>=3.0,<4.0
+opencv-python>=4.8
+numpy>=1.26
+face-recognition>=1.3
+setuptools<82
+qrcode[pil]>=8.2,<9
+

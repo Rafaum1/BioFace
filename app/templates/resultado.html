@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Verificação de acesso · BioFace{% endblock %}
+{% block content %}
+<section class="page-intro">
+  <p class="eyebrow">VERIFICAÇÃO DE IDENTIDADE</p>
+  {% if result.user %}
+  <h1>Acesso autorizado</h1>
+  {% elif result.status == 'unknown' %}
+  <h1>Não foi possível confirmar sua identidade</h1>
+  {% else %}
+  <h1>Verificação não concluída</h1>
+  {% endif %}
+</section>
+<p class="result {{ result.status }}">{{ result.message }}</p>
+
+{% if result.user %}
+<section class="access level-{{ result.user.access_level }}">
+  <h2>Bem-vindo, {{ result.user.name }}</h2>
+  <p>Perfil de acesso: <strong>{{ result.user.access_level }}</strong></p>
+  <h3>Recursos disponíveis</h3>
+  {% if result.user.access_level >= 1 %}<p>Consulta de informações públicas e dados gerais.</p>{% endif %}
+  {% if result.user.access_level >= 2 %}<p>Acesso também aos relatórios de fiscalização, análises técnicas e ocorrências ambientais.</p>{% endif %}
+  {% if result.user.access_level >= 3 %}<p>Acesso também a informações estratégicas e decisões administrativas.</p>{% endif %}
+</section>
+{% elif result.status == 'unknown' %}
+<p>Confira a iluminação e tente novamente, olhando diretamente para a câmera.</p>
+{% endif %}
+
+{% if result.images %}
+<p><a class="button secondary" href="{{ url_for('main.processamento', capture_id=capture_id) }}">Ver detalhes da verificação</a></p>
+{% endif %}
+<a href="{{ url_for('main.index') }}">Voltar ao acesso</a>
+{% endblock %}

@@ -1,0 +1,106 @@
+header {
+  align-items: center;
+}
+
+header > a {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+header nav a {
+  display: inline-block;
+  padding: 0.55rem 0.85rem;
+  border-radius: 6px;
+  transition: background-color 140ms ease;
+}
+
+header nav a.active {
+  background-color: #2583d8;
+  color: #fff;
+}
+
+header nav a:not(.active):hover {
+  background-color: rgb(255 255 255 / 14%);
+}
+
+.page-intro {
+  margin-bottom: 1.5rem;
+}
+
+.page-intro h1 {
+  margin: 0.25rem 0 0.6rem;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.page-intro > p:last-child {
+  color: #526174;
+  max-width: 42rem;
+  line-height: 1.55;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #1769aa;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.form input:not([type="file"], [type="checkbox"]),
+.form select {
+  width: 100%;
+  min-height: 2.7rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #bdc8d5;
+  border-radius: 5px;
+  background: #fff;
+  font: inherit;
+}
+
+.form small {
+  color: #526174;
+  line-height: 1.45;
+}
+
+.button.secondary {
+  background: #40536a;
+}
+
+.registration-camera {
+  max-width: 500px;
+  padding: 1rem;
+  border: 1px solid #dce4ee;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.registration-camera h2 {
+  margin: 0 0 .5rem;
+  font-size: 1.15rem;
+}
+
+.registration-camera > p:not(.camera-help) {
+  color: #526174;
+  line-height: 1.45;
+}
+
+.registration-camera video,
+.registration-camera img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  background: #17212f;
+  border-radius: 6px;
+}
+
+.registration-camera [hidden] {
+  display: none !important;
+}
+
+.registration-camera-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: 1rem;
+}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Novo cadastro · BioFace{% endblock %}
+{% block content %}
+<section class="page-intro">
+  <p class="eyebrow">PERFIS</p>
+  <h1>Novo cadastro</h1>
+  <p>Adicione os dados do perfil e uma ou mais fotos nítidas do rosto.</p>
+</section>
+<form method="post" enctype="multipart/form-data" class="form">
+  <label>Nome
+    <input name="name" maxlength="100" autocomplete="name" required>
+  </label>
+  <label>Perfil de acesso
+    <select name="access_level" required>
+      <option value="1">1 — Padrão</option>
+      <option value="2">2 — Avançado</option>
+      <option value="3">3 — Administrador</option>
+    </select>
+  </label>
+
+  <section class="registration-camera" aria-labelledby="registration-camera-title">
+    <h2 id="registration-camera-title">Capturar pela webcam</h2>
+    <p>Ative a câmera e capture uma foto ou envie imagens do dispositivo.</p>
+    <video id="registration-video" autoplay playsinline aria-label="Prévia da webcam" hidden></video>
+    <canvas id="registration-canvas" hidden></canvas>
+    <img id="registration-preview" alt="Foto capturada para o cadastro" hidden>
+    <p id="registration-camera-help" class="camera-help" role="status" hidden></p>
+    <div class="registration-camera-actions">
+      <button type="button" id="registration-start-camera">Ativar webcam</button>
+      <button type="button" id="registration-capture" disabled hidden>Capturar foto</button>
+      <button type="button" id="registration-retake" class="button secondary" hidden>Tirar outra</button>
+    </div>
+    <input type="hidden" name="camera_image" id="registration-camera-image">
+  </section>
+
+  <label>Ou selecione fotos do rosto
+    <input type="file" name="images" id="registration-files" accept="image/png,image/jpeg" capture="user" multiple>
+    <small>Você pode usar a webcam, enviar uma ou mais fotos, ou combinar as opções. Cada imagem deve mostrar exatamente um rosto.</small>
+  </label>
+  <button type="submit">Salvar perfil</button>
+</form>
+<script src="{{ url_for('static', filename='js/registration-camera.js', v='1') }}"></script>
+{% endblock %}

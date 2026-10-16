@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Processamento da Imagem · BioFace{% endblock %}
+{% block content %}
+<h1>Processamento da Imagem</h1>
+<p>Resumo das etapas aplicadas na verificação de identidade.</p>
+
+<h2>Imagens analisadas</h2>
+<div class="grid">
+  <figure>
+    <img src="{{ url_for('main.capture_file', capture_id=capture_id, filename='01_original.jpg') }}" alt="Imagem original">
+    <figcaption>Imagem recebida</figcaption>
+  </figure>
+  <figure>
+    <img src="{{ url_for('main.capture_file', capture_id=capture_id, filename='02_preprocessada.jpg') }}" alt="Imagem pré-processada">
+    <figcaption>Imagem ajustada para análise</figcaption>
+  </figure>
+  <figure>
+    <img src="{{ url_for('main.capture_file', capture_id=capture_id, filename='03_rosto_detectado.jpg') }}" alt="Face detectada">
+    <figcaption>Rosto identificado na imagem</figcaption>
+  </figure>
+  {% if result.encoding_size %}
+  <figure>
+    <img src="{{ url_for('main.capture_file', capture_id=capture_id, filename='04_rosto_segmentado.jpg') }}" alt="Recorte da face">
+    <figcaption>Área do rosto analisada</figcaption>
+  </figure>
+  {% endif %}
+</div>
+
+<h2>Etapas da verificação</h2>
+<ol class="pipeline-steps">
+  {% for step in result.steps %}
+  <li><strong>{{ step.name }}:</strong> {{ step.detail }}</li>
+  {% endfor %}
+</ol>
+
+{% if result.encoding_size %}
+<section class="panel">
+  <h2>Dados biométricos gerados</h2>
+  <p>O modelo transformou o rosto em um vetor com <strong>{{ result.encoding_size }} valores</strong>. Amostra dos dados usados na análise:</p>
+  <code class="vector">{{ result.encoding_sample|join(', ') }}</code>
+</section>
+{% endif %}
+
+{% if result.candidates %}
+<section class="panel">
+  <h2>Comparação facial 1:N</h2>
+  <p>A imagem é comparada com os perfis cadastrados. Para cada perfil, exibimos a menor distância encontrada; valores menores indicam maior semelhança. Limite aplicado nesta verificação: <strong>{{ result.tolerance }}</strong>.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Posição</th><th>Perfil</th><th>Acesso</th><th>Distância</th><th>Correspondência</th></tr></thead>
+    <tbody>
+      {% for candidate in result.candidates %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ candidate.user.name }}</td>
+        <td>{{ candidate.user.access_level }}</td>
+        <td>{{ candidate.distance }}</td>
+        <td>{% if candidate.accepted %}Dentro do limite{% else %}Fora do limite{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div>
+</section>
+{% endif %}
+
+<section class="panel decision">
+  <h2>Status da verificação</h2>
+  <p class="result {{ result.status }}">{{ result.message }}</p>
+</section>
+<a class="button" href="{{ url_for('main.index') }}">Voltar para autenticação</a>
+{% endblock %}
